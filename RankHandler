@@ -1,0 +1,20 @@
+local groupID = 11479608 --  Group ID !
+
+
+game.Players.PlayerAdded:Connect(function(player)
+	local groupRank = player:GetRoleInGroup(11479608)
+	local clone = script.Rank:Clone()
+	clone.Parent = game.Workspace:WaitForChild(player.Name).Head
+	clone.Frame.Name1.Text = player.Name
+	clone.Frame.Rank.Text = groupRank
+	
+	player.CharacterAdded:Connect(function()
+		local groupRank = player:GetRoleInGroup(11479608)
+		local clone = script.Rank:Clone()
+		clone.Parent = game.Workspace:WaitForChild(player.Name).Head
+		clone.Frame.Name1.Text = player.Name
+		clone.Frame.Rank.Text = groupRank
+	end)
+
+
+end)
