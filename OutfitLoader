@@ -1,0 +1,46 @@
+local Outfits = game.Workspace:WaitForChild("Outfits");
+local Gui = script:WaitForChild("OutfitDetailsGuis");
+
+Gui.Parent = game.StarterGui;
+Gui.TryOnScript.Disabled = false;
+
+local function SetupOutfit(Character)
+	--Assets
+	local Humanoid = Character:FindFirstChildWhichIsA("Humanoid");
+	local HumanoidRootPart = Humanoid.RootPart;
+	local HumanoidDescription:HumanoidDescription = Character:FindFirstChildWhichIsA("HumanoidDescription");
+
+	--Get rid of animations
+	HumanoidDescription.RunAnimation = 0;
+	HumanoidDescription.FallAnimation = 0;
+	HumanoidDescription.IdleAnimation = 0;
+	HumanoidDescription.JumpAnimation = 0;
+	HumanoidDescription.SwimAnimation = 0;
+	HumanoidDescription.WalkAnimation = 0;
+	HumanoidDescription.ClimbAnimation = 0;
+	for _, v in pairs(HumanoidDescription:GetEquippedEmotes()) do
+		HumanoidDescription:RemoveEmote(v.Name);
+	end
+
+	--Appy the HumanoidDescription
+	Humanoid:ApplyDescription(HumanoidDescription);
+
+	--Create an attachment for the ProximityPrompt
+	local Attachment = Instance.new("Attachment", HumanoidRootPart);
+	Attachment.Name = "ProximityPrompt";
+	Attachment.Position = Vector3.new(0, 0, -2);
+
+	--Create a ProximityPrompt
+	local ProximityPrompt = Instance.new("ProximityPrompt", Attachment);
+	ProximityPrompt.Name = "OutfitDetails";
+	ProximityPrompt.ActionText = "Details";
+	ProximityPrompt.ObjectText = "Outfit";
+	ProximityPrompt.MaxActivationDistance = 3;
+end
+
+Outfits.ChildAdded:Connect(function(Character)
+	SetupOutfit(Character);
+end)
+for _, Character in pairs(Outfits:GetChildren()) do
+	SetupOutfit(Character);
+end
