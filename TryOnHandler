@@ -1,0 +1,21 @@
+script.Parent:WaitForChild("TryOn").OnServerEvent:Connect(function(Player, Items)
+	--Setup
+	local Character = Player.Character;
+	local Humanoid = Character:WaitForChild("Humanoid");
+	
+	--Delete all accessories
+	Humanoid:RemoveAccessories();
+	local Clothing = {};
+	Clothing.Shirt = Character:FindFirstChildWhichIsA("Shirt");
+	Clothing.ShirtGraphic = Character:FindFirstChildWhichIsA("ShirtGraphic");
+	Clothing.Pants = Character:FindFirstChildWhichIsA("Pants");
+	for _, v in pairs(Clothing) do
+		v:Destroy();
+	end
+	
+	--Add the new one's
+	for _, Item in pairs(Items) do
+		local NewItem = Item:Clone();
+		NewItem.Parent = Player.Character;
+	end
+end)
